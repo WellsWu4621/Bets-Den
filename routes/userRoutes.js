@@ -5,12 +5,16 @@ const jwt = require('jsonwebtoken')
 
 router.post('/users/register', (req, res) => {
   const {
-    username
+    username,
+    email,
+    DiscordName,
     // any other properties you need
   } = req.body
 
   User.register(new User({
-    username
+    username,
+    email,
+    DiscordName,
     // any other properties you need
   }), req.body.password, err => {
     if (err) { console.log(err) }

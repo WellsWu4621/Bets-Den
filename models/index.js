@@ -1,4 +1,4 @@
-const User = require('./User.js')
+const User = require('./User')
 const Bets = require('./Bets')
 const Witness = require('./Witness')
 const Participant = require('./Participant')

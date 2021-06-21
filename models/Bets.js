@@ -19,14 +19,7 @@ Bets.init(
     creator_id: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'user',
-        key: 'id'
-      }
-    },
-    Witness_id: {
-      type: DataTypes.INTEGER,
-      references: {
-        model: 'user',
+        model: 'Users',
         key: 'id'
       }
     },

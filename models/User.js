@@ -14,14 +14,7 @@ const User = pls.defineUser(sequelize, {
   email: DataTypes.STRING,
   DiscordName: DataTypes.STRING,
   Tokens: DataTypes.INTEGER,
-},
-  {
-    sequelize,
-    timestamps: false,
-    freezeTableName: true,
-    underscored: true,
-    modelName: 'user'
-  }
+}
 )
 
 module.exports = User

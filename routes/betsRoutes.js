@@ -22,6 +22,14 @@ router.get('/bets', passport.authenticate('jwt'), (req, res) => {
 router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
   Bets.findOne({
     where: { id: req.params.id },
+    include: [
+      {
+        model: Participant,
+      }
+      {
+        model: Witness,
+      }
+    ]
   })
     .then(bet => res.json(bet))
     .catch(err => console.log(err))

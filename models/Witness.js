@@ -13,6 +13,20 @@ Witness.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    user_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'users',
+        key: 'id'
+      }
+    },
+    bet_id: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: 'bets',
+        key: 'id'
+      }
+    }
   },
   {
     sequelize,

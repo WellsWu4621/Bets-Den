@@ -19,7 +19,7 @@ Witness.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'witness_id'
+    modelName: 'witnesses'
   }
 )
 

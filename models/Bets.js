@@ -36,7 +36,7 @@ Bets.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'bet'
+    modelName: 'bets'
   }
 
 )

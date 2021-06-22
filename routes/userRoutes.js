@@ -8,14 +8,14 @@ router.post('/users/register', (req, res) => {
   const {
     username,
     email,
-    DiscordName,
+    DiscordName
     // any other properties you need
   } = req.body
 
   User.register(new User({
     username,
     email,
-    DiscordName,
+    DiscordName
     // any other properties you need
   }), req.body.password, err => {
     if (err) { console.log(err) }
@@ -31,23 +31,22 @@ router.post('/users/login', (req, res) => {
 })
 
 router.get('/users/:id/bets/creator', (req, res) => {
-  Bets.findAll({where: { creator_id: req.params.id}
+  Bets.findAll({
+    where: { creator_id: req.params.id }
   })
-  .then(bets => res.json(bets))
-  .catch(err => console.log(err))
+    .then(bets => res.json(bets))
+    .catch(err => console.log(err))
 })
 
 // view bets user is a participant in
 // router.get('/user/:id/bets/participant', (req, res) => {
 //   Bets.findAll({
 //     where: {participant_id: req.params.id},
-//     attributes: 
+//     attributes:
 //   })
 //   .then(bets => res/json(bets))
 
 //   .catch(err => console.log(err))
 // })
-
-
 
 module.exports = router

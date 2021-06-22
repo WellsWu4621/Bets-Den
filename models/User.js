@@ -8,14 +8,14 @@ const User = pls.defineUser(sequelize, {
     type: DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
+    autoIncrement: true
   },
   name: DataTypes.STRING,
   email: DataTypes.STRING,
   DiscordName: DataTypes.STRING,
   Tokens: {
     type: DataTypes.INTEGER,
-    defaultValue: 100,
+    defaultValue: 100
   }
 }
 )

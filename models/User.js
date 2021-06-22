@@ -1,5 +1,5 @@
 const pls = require('passport-local-sequelize')
-const { Model, DataTypes } = require('sequelize')
+const { DataTypes } = require('sequelize')
 const sequelize = require('../db')
 
 const User = pls.defineUser(sequelize, {
@@ -10,7 +10,7 @@ const User = pls.defineUser(sequelize, {
     primaryKey: true,
     autoIncrement: true
   },
-  username: DataTypes.STRING,
+  name: DataTypes.STRING,
   email: DataTypes.STRING,
   DiscordName: DataTypes.STRING,
   Tokens: {

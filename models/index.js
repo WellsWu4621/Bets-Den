@@ -12,24 +12,36 @@ User.hasMany(Bets, {
   foreignKey: 'creator_id'
 })
 
-// witness foreign key
-Bets.belongsToMany(User, {
-  through: Witness,
-  foreignKey: 'bets_id'
+// Witness foreign key
+// Witness user connection
+Witness.belongsTo(User, {
+  foreignKey: 'user_id',
 })
-User.belongsToMany(Bets, {
-  through: Witness,
-  foreignKey: 'user_id'
+User.hasMany(Witness, {
+  foreignKey: 'user_id',
+})
+// Witness bets connection
+Witness.belongsTo(Bets, {
+  foreignKey: 'bet_id',
+})
+Bets.hasMany(Witness, {
+  foreignKey: 'bet_id',
 })
 
 // participant foreign key
-Bets.belongsToMany(User, {
-  through: Participant,
-  foreignKey: 'bets_id'
+// participant user connection
+Participant.belongsTo(User, {
+  foreignKey: 'user_id',
 })
-User.belongsToMany(Bets, {
-  through: Participant,
-  foreignKey: 'user_id'
+User.hasMany(Participant, {
+  foreignKey: 'user_id',
+})
+// participant bets connection
+Participant.belongsTo(Bets, {
+  foreignKey: 'bet_id',
+})
+Bets.hasMany(Participant, {
+  foreignKey: 'bet_id',
 })
 
 module.exports = { User, Bets, Participant, Witness }

@@ -28,7 +28,7 @@ router.get('/witness/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // create a witness
-router.post('./witness', passport.authenticate('jwt'), (req, res) => {
+router.post('/witness', passport.authenticate('jwt'), (req, res) => {
   Witness.create({
     user_id: req.user.id,
     bet_id: req.body.bet_id,
@@ -39,7 +39,7 @@ router.post('./witness', passport.authenticate('jwt'), (req, res) => {
 
 // update a witness
 // not sure if this is needed
-router.put('./witness/:id', passport.authenticate('jwt'), (req, res) => {
+router.put('/witness/:id', passport.authenticate('jwt'), (req, res) => {
   Witness.update(
     req.body,
     { where: { id: req.params.id } }
@@ -49,7 +49,7 @@ router.put('./witness/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // delete a witness
-router.delete('./witness/:id', passport.authenticate('jwt'), (req, res) => {
+router.delete('/witness/:id', passport.authenticate('jwt'), (req, res) => {
   Witness.destroy({
     where: { id: req.params.id }
   })

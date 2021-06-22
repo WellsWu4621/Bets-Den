@@ -10,7 +10,7 @@ const User = pls.defineUser(sequelize, {
     primaryKey: true,
     autoIncrement: true
   },
-  name: DataTypes.STRING,
+  username: DataTypes.STRING,
   email: DataTypes.STRING,
   DiscordName: DataTypes.STRING,
   Tokens: {

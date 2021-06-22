@@ -27,7 +27,7 @@ Participant.init(
     timestamps: false,
     freezeTableName: true,
     underscored: true,
-    modelName: 'participant_id'
+    modelName: 'participants'
   }
 )
 

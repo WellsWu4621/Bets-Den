@@ -11,11 +11,11 @@ Participant.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true,
-      autoIncrement: true,
+      autoIncrement: true
     },
     alignCreator: {
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
+      defaultValue: true
     },
     betamount: {
       type: DataTypes.INTEGER,

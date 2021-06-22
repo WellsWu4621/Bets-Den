@@ -1,7 +1,8 @@
 const router = require('express').Router()
-const { User } = require('../models')
+const { User, Bets, Witness, Participant } = require('../models')
 const passport = require('passport')
 const jwt = require('jsonwebtoken')
+const { json } = require('sequelize/types')
 
 router.post('/users/register', (req, res) => {
   const {
@@ -28,5 +29,25 @@ router.post('/users/login', (req, res) => {
     res.json(user ? jwt.sign({ id: user.id }, process.env.SECRET) : null)
   })
 })
+
+router.get('/users/:id/bets/creator', (req, res) => {
+  Bets.findAll({where: { creator_id: req.params.id}
+  })
+  .then(bets => res.json(bets))
+  .catch(err => console.log(err))
+})
+
+// view bets user is a participant in
+// router.get('/user/:id/bets/participant', (req, res) => {
+//   Bets.findAll({
+//     where: {participant_id: req.params.id},
+//     attributes: 
+//   })
+//   .then(bets => res/json(bets))
+
+//   .catch(err => console.log(err))
+// })
+
+
 
 module.exports = router

@@ -12,9 +12,16 @@ Bets.init(
       primaryKey: true,
       autoIncrement: true,
     },
-    Name: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
+    },
+    description: {
+      type: DataTypes.STRING,
+    },
+    value: {
+      type: DataTypes.INTEGER,
+      defaultValue: 10,
     },
     creator_id: {
       type: DataTypes.INTEGER,

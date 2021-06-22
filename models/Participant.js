@@ -13,6 +13,14 @@ Participant.init(
       primaryKey: true,
       autoIncrement: true,
     },
+    alignCreator: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+    },
+    betamount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 10
+    }
   },
   {
     sequelize,

@@ -15,21 +15,21 @@ User.hasMany(Bets, {
 // witness foreign key
 Bets.belongsToMany(User, {
   through: Witness,
-  foreignKey: 'witness_id',
+  foreignKey: 'bets_id',
 })
 User.belongsToMany(Bets, {
   through: Witness,
-  foreignKey: 'witness_id',
+  foreignKey: 'user_id',
 })
 
 // participant foreign key
 Bets.belongsToMany(User, {
   through: Participant,
-  foreignKey: 'participant_id',
+  foreignKey: 'bets_id',
 })
 User.belongsToMany(Bets, {
   through: Participant,
-  foreignKey: 'participant_id',
+  foreignKey: 'user_id',
 })
 
-module.exports = { User, Bets }
+module.exports = { User, Bets, Participant, Witness}

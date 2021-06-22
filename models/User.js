@@ -15,7 +15,7 @@ const User = pls.defineUser(sequelize, {
   DiscordName: DataTypes.STRING,
   Tokens: {
     type: DataTypes.INTEGER,
-    default: 100,
+    defaultValue: 100,
   }
 }
 )

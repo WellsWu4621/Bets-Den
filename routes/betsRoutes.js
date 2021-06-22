@@ -25,7 +25,7 @@ router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
     include: [
       {
         model: Participant,
-      }
+      },
       {
         model: Witness,
       }
@@ -36,7 +36,7 @@ router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // create a bet
-router.post('./bets', passport.authenticate('jwt'), (req, res) => {
+router.post('/bets', passport.authenticate('jwt'), (req, res) => {
   Bets.create({
     name: req.body.name,
     description: req.body.description,
@@ -48,7 +48,7 @@ router.post('./bets', passport.authenticate('jwt'), (req, res) => {
 })
 
 // update a bet
-router.put('./bets/:id', passport.authenticate('jwt'), (req, res) => {
+router.put('/bets/:id', passport.authenticate('jwt'), (req, res) => {
   Bets.update(
     req.body,
     { where: { id: req.params.id } }
@@ -59,9 +59,10 @@ router.put('./bets/:id', passport.authenticate('jwt'), (req, res) => {
 
 // update a bets amount
 // Probhably wrong!!!
-router.put('./bets/:id/amount', passport.authenticate('jwt'), (req, res) => {
-  Bets.update(
-    value: req.body.value,
+router.put('/bets/:id/amount', passport.authenticate('jwt'), (req, res) => {
+  Bets.update({
+    value: req.body.value
+  },
     { where: { id: req.params.id } }
   )
     .then(bet => res.json(bet))
@@ -69,7 +70,7 @@ router.put('./bets/:id/amount', passport.authenticate('jwt'), (req, res) => {
 })
 
 // delete a bet/close bet
-router.delete('./bets/:id', passport.authenticate('jwt'), (req, res) => {
+router.delete('/bets/:id', passport.authenticate('jwt'), (req, res) => {
   Bets.destroy({
     where: { id: req.params.id }
   })

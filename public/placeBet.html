@@ -34,14 +34,14 @@
     .row {
       margin-top: 20px;
     }
+    .input-group{
+      display:block;
+    }
 
     .card {
       margin-left: 20%;
       margin-top: 10%;
       margin-right: 20%;
-    }
-
-    .card-body {
       line-height: 400px;
     }
   </style>
@@ -73,26 +73,63 @@
     </div>
   </div>
 </nav>
-<div class="col">
-  <div class="card">
-    <div class="card-body">
-      <h5 type='betNam' class="card-title">Place a Bet : </h5>
-      <form>
+<div class="container">
+  <div class="row">
+    <form class="input-group input-group-lg">
+      <p>
+        <label for="name">Name</label>
+        <input type="name" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+          name="name" id="name">
+      </p>
+      <p>
+        <label for="description">Description</label>
         <input type="description" class="form-control" aria-label="Sizing example input"
           aria-describedby="inputGroup-sizing-lg" name="description" id="description">
-        <label for="bet">Bet Name</label>
-      </form>
-      <p class="card-text">Bet Description</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
+      </p>
+      <p>
+        <label for="value">Wager Amount</label>
+        <input type="integer" class="form-control" aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-lg" name="value" id="value">
+      </p>
+      <p>
+        <button id='placeBet' type="button" class="btn btn-primary">Place Bet</button>
+      </p>
+    </form>
   </div>
-  <body>
-
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+</div>
+<div id="bets"></div>
+<body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.getElementById('placeBet').addEventListener('click', event => {
+      event.preventDefault()
+      
+      axios.post('/api/bets', {
+        name: document.getElementById('name').value,
+        description: document.getElementById('description').value,
+        value: document.getElementById('value').value
+      })
+      .then(({ data: {id, name, description, value } }) => {
+        let betElem = document.createElement('li')
+        betElem.className = 'list-group-item'
+        betElem.dataset.id = id
+        betElem.textContent = ` 
+        ${name}
+        ${description}
+        ${value}
+        `
+        document.getElementById('bets').append(betElem)
+        document.getElementById('name').value = ''
+        document.getElementById('description').vlue = ''
+        document.getElementById('value').value =''
+      })
+    .catch(err => console.log(err))
+    })
+  
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
       crossorigin="anonymous"></script>
 
-  </body>
-
+</body>
 </html>

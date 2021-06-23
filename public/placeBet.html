@@ -8,7 +8,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
-  <title>View Bets</title>
+  <title>Place Bet</title>
 
   <style>
     .navbar {
@@ -29,7 +29,6 @@
 
     .container {
       margin-top: 40px;
-      max-width: 100%;
     }
 
     .row {
@@ -37,8 +36,13 @@
     }
 
     .card {
-      margin-bottom: 30px;
-      column-gap: 5%;
+      margin-left: 20%;
+      margin-top: 10%;
+      margin-right: 20%;
+    }
+
+    .card-body {
+      line-height: 400px;
     }
   </style>
 
@@ -53,6 +57,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarNavDropdown">
       <ul class="navbar-nav">
+
         <li class="nav-item dropdown ">
           <a id='dropDown' class="nav-link dropdown-toggle" href="login.html" id="navbarDropdownMenuLink" role="button"
             data-bs-toggle="dropdown" aria-expanded="false"></a>
@@ -68,52 +73,26 @@
     </div>
   </div>
 </nav>
-<div class="container">
-  <div class="row">
-    <div class="col-3">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-3">
-      <div class="card" style="width: 18rem;">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's
-            content.
-          </p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-      </div>
+<div class="col">
+  <div class="card">
+    <div class="card-body">
+      <h5 type='betNam' class="card-title">Place a Bet : </h5>
+      <form>
+        <input type="description" class="form-control" aria-label="Sizing example input"
+          aria-describedby="inputGroup-sizing-lg" name="description" id="description">
+        <label for="bet">Bet Name</label>
+      </form>
+      <p class="card-text">Bet Description</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
     </div>
   </div>
-  </div>
+  <body>
 
 
-<body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+      crossorigin="anonymous"></script>
 
-
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous"></script>
-
-</body>
+  </body>
 
 </html>

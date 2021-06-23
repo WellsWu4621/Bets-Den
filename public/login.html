@@ -5,10 +5,119 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+  <title>Login</title>
+
+  <style>
+    .navbar {
+      background-color: rgba(36, 110, 237, 0.831);
+    }
+
+    .container {
+      margin-top: 14%;
+    }
+
+    .row {
+      margin-top: 20px;
+    }
+
+    .card {
+      margin-bottom: 30px;
+    }
+
+    #dropDown {
+      color: aliceblue;
+    }
+
+    .navbar-light .navbar-brand {
+      color: aliceblue;
+    }
+
+    .navbar-light .navbar-nav .navlink {
+      color: aliceblue;
+    }
+
+    .input-group {
+      margin-bottom: 8%;
+      position: relative;
+      display: block;
+    }
+  </style>
+
 </head>
 
+<nav class="navbar navbar-expand-lg navbar-light ">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="login.html">bets</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+      aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <ul class="navbar-nav">
+        <li class="nav-item dropdown ">          
+          <a id='dropDown' class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false"></a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="placeBet.html">Place a Bet</a></li>
+            <li><a class="dropdown-item" href="index.html">View Bets</a></li>
+            <li><a class="dropdown-item" href="coins.html">Get Coins</a></li>
+            <li><a class="dropdown-item" href="login.html">Sign Out</a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<div id='signIn' class="col-lg-6 s-12 container">
+  <form class="input-group input-group-lg">
+    <p>
+      <label for="username">username</label>
+      <input type="username" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+        name="username" id="username">
+    </p>
+    <p>
+      <label for="password">Password</label>
+      <input type="password" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg"
+        name="password" id="password">
+    </p>
+    <p>
+      <button id='login' type="button" class="btn btn-primary">Login</button>
+      <a class=" btn btn-primary" href="register.html">Register</a>
+
+      </p>
+        </form> 
+      
+
 <body>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+
+    document.getElementById('login').addEventListener('click', event => {
+      event.preventDefault()
+      axios.post('/api/users/login', {
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value
+      })
+        .then(({ data: token }) => {
+          if (token) {
+            localStorage.setItem('token', token)
+            window.location = '/'
+          } else {
+            alert('Invalid username or password')
+          }
+        })
+        .catch(err => console.error(err))
+    })
+
+  </script>
+
+ 
 
 </body>
 

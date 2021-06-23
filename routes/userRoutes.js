@@ -5,19 +5,8 @@ const jwt = require('jsonwebtoken')
 const sequelize = require('sequelize')
 
 router.post('/users/register', (req, res) => {
-  const {
-    username,
-    email,
-    DiscordName
-    // any other properties you need
-  } = req.body
-
-  User.register(new User({
-    username,
-    email,
-    DiscordName
-    // any other properties you need
-  }), req.body.password, err => {
+  const {username, email, DiscordName,password} = req.body
+  User.register(new User({username,  email, DiscordName, password}), req.body.password, err => {
     if (err) { console.log(err) }
     res.sendStatus(200)
   })
@@ -37,16 +26,4 @@ router.get('/users/:id/bets/creator', (req, res) => {
     .then(bets => res.json(bets))
     .catch(err => console.log(err))
 })
-
-// view bets user is a participant in
-// router.get('/user/:id/bets/participant', (req, res) => {
-//   Bets.findAll({
-//     where: {participant_id: req.params.id},
-//     attributes:
-//   })
-//   .then(bets => res/json(bets))
-
-//   .catch(err => console.log(err))
-// })
-
 module.exports = router

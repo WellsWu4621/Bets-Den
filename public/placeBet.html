@@ -108,6 +108,10 @@
         name: document.getElementById('name').value,
         description: document.getElementById('description').value,
         value: document.getElementById('value').value
+      },{
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
       })
       .then(({ data: {id, name, description, value } }) => {
         let betElem = document.createElement('li')
@@ -120,7 +124,7 @@
         `
         document.getElementById('bets').append(betElem)
         document.getElementById('name').value = ''
-        document.getElementById('description').vlue = ''
+        document.getElementById('description').value = ''
         document.getElementById('value').value =''
       })
     .catch(err => console.log(err))

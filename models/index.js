@@ -1,14 +1,14 @@
 const User = require('./User.js')
-const Bets = require('./Bets.js')
+const Bet = require('./Bet.js')
 const Witness = require('./Witness')
 const Participant = require('./Participant')
 
 // your relationships go here...
 // creatorid foreign key
-Bets.belongsTo(User, {
+Bet.belongsTo(User, {
   foreignKey: 'creator_id'
 })
-User.hasMany(Bets, {
+User.hasMany(Bet, {
   foreignKey: 'creator_id'
 })
 
@@ -21,10 +21,10 @@ User.hasMany(Witness, {
   foreignKey: 'user_id',
 })
 // Witness bets connection
-Witness.belongsTo(Bets, {
+Witness.belongsTo(Bet, {
   foreignKey: 'bet_id',
 })
-Bets.hasMany(Witness, {
+Bet.hasMany(Witness, {
   foreignKey: 'bet_id',
 })
 
@@ -37,11 +37,11 @@ User.hasMany(Participant, {
   foreignKey: 'user_id',
 })
 // participant bets connection
-Participant.belongsTo(Bets, {
+Participant.belongsTo(Bet, {
   foreignKey: 'bet_id',
 })
-Bets.hasMany(Participant, {
+Bet.hasMany(Participant, {
   foreignKey: 'bet_id',
 })
 
-module.exports = { User, Bets, Participant, Witness }
+module.exports = { User, Bet, Participant, Witness }

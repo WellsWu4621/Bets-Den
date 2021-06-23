@@ -1,7 +1,6 @@
 const router = require('express').Router()
 const { User, Bets, Witness, Participant } = require('../models')
 const passport = require('passport')
-const jwt = require('jsonwebtoken')
 const sequelize = require('../db')
 
 // all participant
@@ -13,9 +12,7 @@ const sequelize = require('../db')
 
 // all user participant
 router.get('/participant', passport.authenticate('jwt'), (req, res) => {
-  Participant.findAll(req.user.participant)
-    .then(participant => res.json(participant))
-    .catch(err => console.log(err))
+  res.json(req.user.participant)
 })
 
 // get witnes by id

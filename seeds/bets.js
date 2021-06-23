@@ -2,7 +2,7 @@ const { Bets } = require('../models')
 
 const bets = [
   {
-    "title": "Bet Test 1",
+    "name": "Bet Test 1",
     "description": "asdfjlkhasldkghjas;lfdhjslkjfdl;sakdjf",
     "value": 500,
     "creator_id": 1

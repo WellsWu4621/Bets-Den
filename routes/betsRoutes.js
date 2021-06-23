@@ -19,6 +19,7 @@ router.get('/bets', passport.authenticate('jwt'), (req, res) => {
 })
 
 // get bet by id
+// add passport.authenticate('jwt')
 router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
   Bets.findOne({
     where: { id: req.params.id },
@@ -36,11 +37,13 @@ router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // create a bet
+// add passport.authenticate('jwt')
 router.post('/bets', passport.authenticate('jwt'), (req, res) => {
   Bets.create({
     name: req.body.name,
     description: req.body.description,
     value: req.body.value,
+    // change body.creator_id to user.id when login is possible
     creator_id: req.user.id,
   })
     .then(bet => res.json(bet))

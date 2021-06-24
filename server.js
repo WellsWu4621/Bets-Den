@@ -37,7 +37,7 @@ passport.deserializeUser((id, done) => {
 passport.use(new JWTStrategy({
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
   secretOrKey: process.env.SECRET
-}, ({ id }, cb) => User.findOne({ where: { id }, include: [Bet] })
+}, ({ id }, cb) => User.findOne({ where: { id }, include: [Bet, Participant, Witness] })
   .then(user => cb(null, user))
   .catch(err => cb(err))))
 

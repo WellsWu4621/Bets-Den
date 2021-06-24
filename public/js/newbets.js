@@ -4,7 +4,9 @@ document.getElementById('placeBet').addEventListener('click', event => {
   axios.post('/api/bets', {
     name: document.getElementById('name').value,
     description: document.getElementById('description').value,
-    value: document.getElementById('value').value
+    creator_value: document.getElementById('value').value,
+    for_value: document.getElementById('value').value,
+    against_value: 0
   }, {
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('token')}`

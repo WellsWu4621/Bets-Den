@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Bets, Witness, Participant } = require('../models')
+const { User, Bet, Witness, Participant } = require('../models')
 const passport = require('passport')
 const sequelize = require('../db')
 
@@ -11,12 +11,12 @@ const sequelize = require('../db')
 // })
 
 // all user participant
-router.get('/participant', passport.authenticate('jwt'), (req, res) => {
+router.get('/participants', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user.participant)
 })
 
 // get witnes by id
-router.get('/participant/:id', passport.authenticate('jwt'), (req, res) => {
+router.get('/participants/:id', passport.authenticate('jwt'), (req, res) => {
   Participant.findOne({
     where: { id: req.params.id },
   })
@@ -25,7 +25,7 @@ router.get('/participant/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // create a participant
-router.post('/participant', passport.authenticate('jwt'), (req, res) => {
+router.post('/participants', passport.authenticate('jwt'), (req, res) => {
   Participant.create({
     alignCreator: req.body.alignCreator,
     betamount: req.body.betamount,

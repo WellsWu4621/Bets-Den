@@ -39,7 +39,9 @@ router.post('/bets', passport.authenticate('jwt'), (req, res) => {
   Bet.create({
     name: req.body.name,
     description: req.body.description,
-    value: req.body.value,
+    creator_value: req.body.creator_value,
+    for_value: req.body.for_value,
+    against_value: req.body.against_value,
     // change body.creator_id to user.id when login is possible
     creator_id: req.user.id,
   })

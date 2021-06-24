@@ -5,6 +5,11 @@
 
   </div>
 </div>
+<div class="modal fade" id="betModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" id="modalContent">
+
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
@@ -19,30 +24,23 @@
       .then(({ data: bets }) => {
         document.getElementById('content').innerHTML = ''
         bets.forEach(bet => {
-          axios.get(`/api/users/${bet.creator_id}`, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-          })
-            .then(user => {
-              let post = document.createElement('div')
-              post.innerHTML = `
+          let post = document.createElement('div')
+          post.innerHTML = `
               <div class="col">
                 <div class="card border-dark mb-3" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title">${bet.name}</h5>
-                    <h7 class="card-subtitle mb-2 text-muted">Created by ${user.data.username} at ${bet.createdAt}</h7>
+                    <h7>Current Betting Values</h7>
+                    <p class="card-text">For: ${bet.for_value} Tokens; Against: ${bet.against_value} Tokens</p>
                     <p class="card-text">${bet.description}</p>
                   </div>
                   <div class="card-footer">
-                    <a href="/bet/${bet.id}" class="btn btn-primary">View this Post</a>
+                    <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary">View this Bet</a>
                   </div>
                 </div>
               </div>
             `
-              document.getElementById('content').append(post)
-            })
-            .catch(err => console.log(err))
+          document.getElementById('content').append(post)
         })
       })
       .catch((err) => {
@@ -50,6 +48,194 @@
         window.location = '/login'
       })
   }
+  const renderModal = (betid) => {
+    document.getElementById('modalContent').innerHTML = ""
+    axios.get(`/api/bets/${betid}`, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+      .then(({ data: bet }) => {
+        console.log(bet)
+        axios.get(`/api/users/${bet.creator_id}`)
+          .then((creator) => {
+            let post = document.createElement('div')
+            post.innerHTML = `
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title">${bet.name}</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <h6>Current Betting Values</h6>
+                    <p class="card-text">For: ${bet.for_value} Tokens; Against: ${bet.against_value} Tokens</p>
+                    <p>${bet.description}</p>
+                    <br>
+                    <h6>Witnesses:</h6>
+                    <p id="witnesslist"></p>
+                    <br>
+                    <h6>Participants:</h6>
+                    <p id="counter"></p>
+                    <p id="participantlist"></p>
+                    <br>
+                    <h7 class="card-subtitle mb-2 text-muted">Created by ${creator.data.username} at ${bet.createdAt}</h7>
+                  </div>
+                  <div class="modal-footer" id="modalfooter">
+                    <form>
+                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="10" aria-label=".form-control-sm example">
+                      <button type="button" class="joinbtn btn btn-secondary" data-betid="${bet.id}" data-align="true">Bet With</button>
+                    </form>
+                    <form>
+                      <input class="form-control form-control-sm" type="text" id='alignfalse' placeholder="10" aria-label=".form-control-sm example">
+                      <button type="button" class="joinbtn btn btn-secondary" data-betid="${bet.id}"" data-align="false">Bet Against</button>
+                    </form>
+                  </div>
+                </div>
+                `
+            console.log('ping')
+            document.getElementById('modalContent').append(post)
+            renderWitness(bet)
+            renderParticipant(bet)
+            let witnessid = isWitness(bet)
+            let participantid = isParticipant(bet)
+
+            if (witnessid > 0) {
+              let footer = document.createElement('div')
+              document.getElementById('modalfooter').innerHTML = ''
+              footer.innerHTML = '<p>You appear to have already signed onto this bet as a Witness. If you would like to update the result of the bet, please go to your<a href="/dashboard">Dashboard</a></p><button class="hidden joinbtn"></button>'
+              document.getElementById('modalfooter').append(footer)
+            }
+            else if (participantid > 0) {
+              let footer = document.createElement('div')
+              document.getElementById('modalfooter').innerHTML = ''
+              axios.get(`/api/participants/${participantid}`, {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              })
+                .then(({ data: participant }) => {
+                  if (participant.alignCreator) {
+                    footer.innerHTML = `<p>Your are currently betting FOR: ${participant.betamount} Tokens.</p><button class="hidden joinbtn"></button>`
+                    document.getElementById('modalfooter').append(footer)
+                  }
+                  else {
+                    footer.innerHTML = `<p>Your are currently betting AGAINST: ${participant.betamount} Tokens.</p><button class="hidden joinbtn"></button>`
+                    document.getElementById('modalfooter').append(footer)
+                  }
+                })
+            }
+            else if (bet.creator_id === bet.creator_id){
+              let footer = document.createElement('div')
+              document.getElementById('modalfooter').innerHTML = ''
+              footer.innerHTML = `<p>Your are the creator of the bet and a default participant listed as FOR: ${bet.creator_value} Tokens.</p><button class="hidden joinbtn"></button>`
+              document.getElementById('modalfooter').append(footer)
+            }
+          })
+      })
+      .catch(err => console.log(err))
+  }
+  const renderWitness = (bet) => {
+    console.log(bet.witnesses.length)
+    if (bet.witnesses.length > 0) {
+      for (let w = 0; w < bet.witnesses.length; w++) {
+        axios.get(`/api/user/${bet.witnesses[w].user_id}`)
+          .then(witness => {
+            document.getElementById('witnesslist').innerText += `${witness.data.name}`
+            if (w + 1 !== bet.witnesses.length) {
+              document.getElementById('witnesslist').innerText += ', '
+            }
+          })
+          .catch(err => console.log(err))
+      }
+    }
+    else {
+      document.getElementById('witnesslist').innerText = 'This bet does not have any witnesses yet.'
+    }
+  }
+  const renderParticipant = (bet) => {
+    let creator = 1
+    let against = 0
+    if (bet.participants.length > 0) {
+      for (let p = 0; p < bet.participants.length; p++) {
+        axios.get(`/api/user/${bet.participants[p].user_id}`)
+          .then(participant => {
+            if (participant.data.alignCreator = false) against++
+            else creator++
+            document.getElementById('participantlist').innerText += `${participant.data.name}`
+            if (p + 1 !== bet.participants.length) {
+              document.getElementById('participantlist').innerText += ', '
+            }
+            else {
+              document.getElementById('counter').innerText = `For: ${creator}, Against: ${against}`
+            }
+          })
+          .catch(err => console.log(err))
+      }
+
+    }
+    else {
+      document.getElementById('counter').innerText = `For: ${creator}, Against: ${against}`
+      document.getElementById('participantlist').innerText = 'This bet does not have any participants besides the creator yet.'
+    }
+  }
+  const isParticipant = (bet) => {
+    let occupied_id = 0
+    for (let p = 0; p < bet.participants.length; p++) {
+      //ask quinton for method to pull user id
+      if (bet.participants[p].user_id === req.user.id) {
+        occupied_id = bet.participants[p].user_id
+      }
+    }
+    return occupied_id
+  }
+  const isWitness = (bet) => {
+    let occupied_id = 0
+    for (let w = 0; w < bet.witnesses.length; w++) {
+      if (bet.witnesses[w].user_id === req.user.id) {
+        occupied_id = bet.witnesses[w].user_id
+      }
+    }
+    return occupied_id
+  }
+
   // function call
   renderbets()
+
+  document.addEventListener('click', event => {
+    if (event.target.classList.contains('modalbtn')) {
+      let betid = event.target.getAttribute('data-betid')
+      renderModal(betid)
+    }
+  })
+
+  document.addEventListener('click', event => {
+    if (event.target.classList.contains('joinbtn')) {
+      let betid = event.target.getAttribute('data-betid')
+      let alignment = false
+      let amount = 0
+      if (event.target.getAttribute('data-align') === 'true') {
+        alignment = true
+        amount = document.getElementById('aligntrue').value
+      }
+      else {
+        alignment = false
+        amount = document.getElementById('alignfalse').value
+      }
+      console.log(amount)
+      axios.post('/api/participants', {
+        alignCreator: alignment,
+        betamount: amount,
+        bet_id: betid
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(() => {
+          console.log('ping')
+          renderModal(betid)
+        })
+        .catch(err => console.log(err))
+    }
+  })
 </script>

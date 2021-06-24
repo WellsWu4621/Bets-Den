@@ -12,9 +12,7 @@ const sequelize = require('../db')
 
 // all user witness
 router.get('/witness', passport.authenticate('jwt'), (req, res) => {
-  Witness.findAll(req.user.witness)
-    .then(Witness => res.json(Witness))
-    .catch(err => console.log(err))
+  res.json(req.user.witness)
 })
 
 // get witnes by id

@@ -13,9 +13,17 @@ Bet.init(
     description: {
       type: DataTypes.STRING,
     },
-    value: {
+    creator_value: {
       type: DataTypes.INTEGER,
       defaultValue: 10,
+    },
+    for_value: {
+      type: DataTypes.INTEGER,
+      defaultValue: 10,
+    },
+    against_value: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
     },
   },
   {

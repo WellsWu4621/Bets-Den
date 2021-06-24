@@ -27,7 +27,8 @@
                 <div class="card border-dark mb-3" style="width: 18rem;">
                   <div class="card-body">
                     <h5 class="card-title">${bet.name}</h5>
-                    <p class="card-text">${bet.value}</p>
+                    <h7>Current Betting Values</h7>
+                    <p class="card-text">For: ${bet.for_value} Tokens; Against: ${bet.against_value} Tokens</p>
                     <p class="card-text">${bet.description}</p>
                   </div>
                   <div class="card-footer">
@@ -40,7 +41,6 @@
             `
           document.getElementById('content').append(post)
         })
-        .catch(err => console.log(err))
       })
       .catch((err) => {
         console.log(err)

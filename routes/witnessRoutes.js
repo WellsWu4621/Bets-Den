@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { User, Bets, Witness, Participant } = require('../models')
+const { User, Bet, Witness, Participant } = require('../models')
 const passport = require('passport')
 const sequelize = require('../db')
 

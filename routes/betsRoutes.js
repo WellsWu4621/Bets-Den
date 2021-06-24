@@ -61,9 +61,18 @@ router.put('/bets/:id', passport.authenticate('jwt'), (req, res) => {
 
 // update a bets amount
 // Probhably wrong!!!
-router.put('/bets/:id/amount', passport.authenticate('jwt'), (req, res) => {
+router.put('/bets/:id/foramount', passport.authenticate('jwt'), (req, res) => {
   Bet.update({
-    value: req.body.value
+    for_value: req.body.value
+  },
+    { where: { id: req.params.id } }
+  )
+    .then(bet => res.json(bet))
+    .catch(err => console.log(err))
+})
+router.put('/bets/:id/againstamount', passport.authenticate('jwt'), (req, res) => {
+  Bet.update({
+    against_value: req.body.value
   },
     { where: { id: req.params.id } }
   )

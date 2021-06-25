@@ -10,30 +10,23 @@
   <title>Register</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <style>
-    #dropDown {
-      color: aliceblue;
-    }
-
-    .navbar-light .navbar-brand {
-      color: aliceblue;
-    }
-
-    .navbar-light .navbar-nav .navlink {
-      color: aliceblue;
-    }
-
-    .navbar {
+    .navbar{
       background-color: rgba(36, 110, 237, 0.831);
     }
-
-    .navbar-toggler {
+    .navbar-light .navbar-nav .nav-link {
       color: aliceblue;
     }
-
-    .navbar-light .navbar-toggler {
+    .navbar-light .navbar-brand{
       color: aliceblue;
+      margin-left: 1%;
     }
-
+    .navbar-nav{
+      margin-left: auto;
+      margin-right: 2%;
+    }
+    .navbar-collapse{
+      display: flex;
+    }
     .container {
       margin-left: 20%;
       margin-top: 8%;
@@ -56,23 +49,22 @@
 
 <body>
   <nav class="navbar navbar-expand-lg navbar-light ">
-    <div class="container-fluid">
-      <a class="navbar-brand" href="login.html">bets</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-        aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNavDropdown">
-        <ul class="navbar-nav">
-
-          <li class="nav-item dropdown ">
-            <a id='dropDown' class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
-              data-bs-toggle="dropdown" aria-expanded="false"></a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-              <li><a class="dropdown-item" href="login.html">Login</a></li>
-            </ul>
-          </li>
-        </ul>
+    <a class="navbar-brand" href="login.html">bets</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="navbar-item nav-link" href="profile.html">Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="placeBet.html">Place a Bet</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="index.html">View Bets</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="coins.html">Get Coins</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="login.html">Sign Out</a>
       </div>
     </div>
   </nav>
@@ -123,9 +115,10 @@
         .catch(err => console.error(err))
     })
   </script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
-    integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
-    crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+  integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
 </body>
 
 </html>

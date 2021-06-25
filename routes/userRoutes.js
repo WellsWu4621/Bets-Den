@@ -28,4 +28,13 @@ router.get('/users/:id', (req, res) => {
 router.get('/user', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user.id)
 })
+
+router.put('/users/:id/tokens', passport.authenticate('jwt'), (req, res) => {
+  User.update({
+    Tokens: req.body.tokens
+  }, { where: { id: req.user.id } }
+  )
+    .then(tokens => res.json(tokens))
+    .catch(err => console.log(err))
+})
 module.exports = router

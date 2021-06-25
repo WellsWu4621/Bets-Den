@@ -87,13 +87,15 @@
 
   <div class="login">
     <h1>Login</h1>
-    <form method="post">
+    <form>
       <input type="username" name="username" placeholder="Username" required="required" id="username" />
       <input type="password" name="password" placeholder="Password" required="required" id='password' />
       <button id='login' type="login" class="btn btn-primary btn-block btn-large">Login</button>
-      <button type="register" class="btn btn-primary btn-block btn-large" href=register.html'>Register</button>
+      <a href="./register.html" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Register</a>
+
     </form>
   </div>
+
   <script>
 
     document.getElementById('login').addEventListener('click', event => {

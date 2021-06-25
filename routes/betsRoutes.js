@@ -34,7 +34,6 @@ router.get('/bets/:id', passport.authenticate('jwt'), (req, res) => {
 })
 
 // create a bet
-// add passport.authenticate('jwt')
 router.post('/bets', passport.authenticate('jwt'), (req, res) => {
   Bet.create({
     name: req.body.name,
@@ -42,7 +41,7 @@ router.post('/bets', passport.authenticate('jwt'), (req, res) => {
     creator_value: req.body.creator_value,
     for_value: req.body.for_value,
     against_value: req.body.against_value,
-    // change body.creator_id to user.id when login is possible
+    isResolved: false,
     creator_id: req.user.id,
   })
     .then(bet => res.json(bet))
@@ -83,7 +82,15 @@ router.put('/bets/:id/againstamount', passport.authenticate('jwt'), (req, res) =
 // delete a bet/close bet
 router.delete('/bets/:id', passport.authenticate('jwt'), (req, res) => {
   Bet.destroy({
-    where: { id: req.params.id }
+    where: { id: req.params.id },
+    include: [
+      {
+        model: Participant,
+      },
+      {
+        model: Witness,
+      }
+    ]
   })
     .then(bet => res.json(bet))
     .catch(err => console.log(err))

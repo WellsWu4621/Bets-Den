@@ -11,8 +11,8 @@ const sequelize = require('../db')
 // })
 
 // all user witness
-router.get('/witness', passport.authenticate('jwt'), (req, res) => {
-  res.json(req.user.witness)
+router.get('/witness/user', passport.authenticate('jwt'), (req, res) => {
+  res.json(req.user.witnesses)
 })
 
 // get witnes by id

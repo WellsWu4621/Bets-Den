@@ -25,6 +25,10 @@ Bet.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    isResolved: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false
+    }
   },
   {
     sequelize,

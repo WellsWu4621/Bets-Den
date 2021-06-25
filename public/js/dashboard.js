@@ -173,7 +173,13 @@ const renderModal = (betid) => {
               if (witnessid > 0) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
-                footer.innerHTML = '<p>You appear to have already signed onto this bet as a Witness. If you would like to update the result of the bet, please go to your <a href="/dashboard">Dashboard</a></p><button class="hidden joinbtn"></button>'
+                footer.innerHTML = `
+                <p>
+                You are a Witness. Please update the result of the bet below.
+                </p>
+                <br>
+                <button class="resultbtn" data-result="1" data-betid="${bet.id}">FOR</button>
+                <button class="resultbtn" data-result="2" data-betid="${bet.id}">AGAINST</button>`
                 document.getElementById('modalfooter').append(footer)
               }
               else if (participantid > 0) {

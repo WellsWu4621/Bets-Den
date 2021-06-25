@@ -11,7 +11,7 @@ const sequelize = require('../db')
 // })
 
 // all user participant
-router.get('/participants', passport.authenticate('jwt'), (req, res) => {
+router.get('/participants/user', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user.participant)
 })
 

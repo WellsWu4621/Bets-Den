@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <title>Register</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <style>
+    .navbar{
+      background-color: rgba(36, 110, 237, 0.831);
+    }
+    .navbar-light .navbar-nav .nav-link {
+      color: aliceblue;
+    }
+    .navbar-light .navbar-brand{
+      color: aliceblue;
+      margin-left: 1%;
+    }
+    .navbar-nav{
+      margin-left: auto;
+      margin-right: 2%;
+    }
+    .navbar-collapse{
+      display: flex;
+    }
+    .container {
+      margin-left: 20%;
+      margin-top: 8%;
+      max-width: 100%;
+    }
+
+    .row {
+      margin-top: 20px;
+    }
+
+    .card {
+      margin-bottom: 30px;
+    }
+
+    .input-group {
+      display: block;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light ">
+    <a class="navbar-brand" href="login.html">bets</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="navbar-item nav-link" href="profile.html">Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="placeBet.html">Place a Bet</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="index.html">View Bets</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="coins.html">Get Coins</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="login.html">Sign Out</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="col-5 row">
+      <h1>Register Page</h1>
+
+      <form class="input-group input-group-lg">
+        <p>
+          <label for="username">User Name</label>
+          <input type="username" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" name="username" id="username">
+        </p>
+        <p>
+          <label for="email">Email</label>
+          <input type="email" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" name="email" id="email">
+        </p>
+        <p>
+          <label for="DiscordName">Discord Name</label>
+          <input type="DiscordName" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" name="DiscordName" id="DiscordName">
+        </p>
+        <p>
+          <label for="password">Password</label>
+          <input type="password" class="form-control" aria-label="Sizing example input"
+            aria-describedby="inputGroup-sizing-lg" name="password" id="password">
+        </p>
+        <p>
+          <button id='register' type="button" class="btn btn-primary">Register</button>
+        </p>
+      </form>
+
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    document.getElementById('register').addEventListener('click', event => {
+      event.preventDefault()
+      axios.post('/api/users/register', {
+        username: document.getElementById('username').value,
+        email: document.getElementById('email').value,
+        DiscordName: document.getElementById('DiscordName').value,
+        password: document.getElementById('password').value
+      })
+        .then(() => window.location = '/login.html')
+        .catch(err => console.error(err))
+    })
+  </script>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+  integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+  integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+</body>
+
+</html>

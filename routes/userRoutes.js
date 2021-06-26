@@ -1,6 +1,7 @@
 const router = require('express').Router()
-const { User, Bets, Witness, Participant } = require('../models')
+const { User, Bet, Witness, Participant } = require('../models')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 const sequelize = require('sequelize')
 
 router.post('/users/register', (req, res) => {
@@ -23,4 +24,22 @@ router.get('/users/:id', (req, res) => {
     .then(user => res.json(user))
     .catch(err => console.log(err))
 })
+
+router.get('/user', passport.authenticate('jwt'), (req, res) => {
+  res.json(req.user)
+})
+
+router.put('/users/tokens/', passport.authenticate('jwt'), (req, res) => {
+  User.update({
+    Tokens: req.body.tokens
+  }, { where: { id: req.user.id } }
+  )
+    .then(tokens => res.json(tokens))
+    .catch(err => console.log(err))
+})
+
+router.get('/user/profile', passport.authenticate('jwt'), (req, res) => {
+  res.json(req.user)
+})
+
 module.exports = router

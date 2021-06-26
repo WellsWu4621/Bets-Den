@@ -32,10 +32,21 @@ router.get('/user/profile', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user)
 })
 
-router.put('/users/:id/tokens', passport.authenticate('jwt'), (req, res) => {
+// update for user's tokens
+router.put('/users/tokens', passport.authenticate('jwt'), (req, res) => {
   User.update({
     Tokens: req.body.tokens
   }, { where: { id: req.user.id } }
+  )
+    .then(tokens => res.json(tokens))
+    .catch(err => console.log(err))
+})
+
+// update for tokens via id
+router.put('/users/:id', passport.authenticate('jwt'), (req, res) => {
+  User.update(
+    req.body,
+    { where: { id: req.params.id } }
   )
     .then(tokens => res.json(tokens))
     .catch(err => console.log(err))

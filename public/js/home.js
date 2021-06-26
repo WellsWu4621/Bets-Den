@@ -8,9 +8,9 @@ const renderbets = () => {
       document.getElementById('content').innerHTML = ''
       bets.forEach(bet => {
         let post = document.createElement('div')
+        post.className ="col-sm-6 col-md-4 col-xl-3"
         post.innerHTML = `
-              <div class="col-sm-3">
-                <div class="card border-dark mb-3 shadow bg-body rounded" style="width: 18rem;">
+                <div class="card border-dark mb-3 shadow bg-body rounded">
                   <div class="card-body">
                     <h5 class="card-title">${bet.name}</h5>
                     <h7>Current Betting Values</h7>
@@ -18,17 +18,17 @@ const renderbets = () => {
                     <p class="card-text">${bet.description}</p>
                   </div>
                   <div class="card-footer">
-                    <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary">View this Bet</a>
+                    <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary" style="width: 100%">View this Bet</a>
                   </div>
                 </div>
-              </div>
+
             `
         document.getElementById('content').append(post)
       })
     })
     .catch((err) => {
       console.log(err)
-      window.location = '/login'
+      // window.location = '/login'
     })
 }
 const renderModal = (betid) => {
@@ -57,20 +57,20 @@ const renderModal = (betid) => {
                     <p id="witnesslist"></p>
                     <br>
                     <h6>Participants:</h6>
-                    <p id="counter"></p>
+                    <p>For: ${bet.for_count}, Against: ${bet.against_count}</p>
                     <p id="participantlist"></p>
                     <br>
                     <h7 class="card-subtitle mb-2 text-muted">Created by ${creator.data.username} at ${bet.createdAt}</h7>
                   </div>
                   <hr>
-                  <div class="text-center" id="modalfooter">
-                    <form>
+                  <div class="text-center row mx-auto" id="modalfooter">
+                    <form class="col-6">
                       <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example">
-                      <button type="button" class="joinbtn btn btn-primary" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}">Bet With</button>
+                      <button type="button" class="joinbtn btn btn-primary my-1" data-count"${bet.for_count}" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}" style="width: 10rem">Bet With</button>
                     </form>
-                    <form>
+                    <form class="col-6">
                       <input class="form-control form-control-sm" type="text" id='alignfalse' placeholder="Whole number of Tokens" aria-label=".form-control-sm example">
-                      <button type="button" class="joinbtn btn btn-primary" data-betid="${bet.id}" data-align="false" data-value="${bet.against_value}">Bet Against</button>
+                      <button type="button" class="joinbtn btn btn-primary my-1" data-count"${bet.against_count}" data-betid="${bet.id}" data-align="false" data-value="${bet.against_value}" style="width: 10rem">Bet Against</button>
                     </form>
                   </div>
                 </div>
@@ -142,20 +142,15 @@ const renderWitness = (bet, participantid, userid) => {
   }
 }
 const renderParticipant = (bet) => {
-  let creator = 1
-  let against = 0
   if (bet.participants.length > 0) {
     for (let p = 0; p < bet.participants.length; p++) {
       axios.get(`/api/users/${bet.participants[p].user_id}`)
         .then(participant => {
-          if (!bet.participants[p].alignCreator) against++
-          else creator++
           document.getElementById('participantlist').innerText += `${participant.data.username}`
           if (p + 1 !== bet.participants.length) {
             document.getElementById('participantlist').innerText += ', '
           }
           else {
-            document.getElementById('counter').innerText = `For: ${creator}, Against: ${against}`
           }
         })
         .catch(err => console.log(err))
@@ -163,7 +158,6 @@ const renderParticipant = (bet) => {
 
   }
   else {
-    document.getElementById('counter').innerText = `For: ${creator}, Against: ${against}`
     document.getElementById('participantlist').innerText = 'This bet does not have any participants besides the creator yet.'
   }
 }
@@ -210,7 +204,7 @@ document.addEventListener('click', event => {
       .catch(err => console.log(err))
   }
 })
-
+// join event action
 document.addEventListener('click', event => {
   if (event.target.classList.contains('joinbtn')) {
     let betid = event.target.getAttribute('data-betid')
@@ -218,6 +212,7 @@ document.addEventListener('click', event => {
     let searchside = ""
     let amount = 0
     let currentamt = parseInt(event.target.getAttribute('data-value'))
+    let currentcnt = parseInt(event.target.getAttribute('data-count')) + 1
     if (event.target.getAttribute('data-align') === 'true') {
       alignment = true
       searchside = "for"
@@ -227,6 +222,7 @@ document.addEventListener('click', event => {
     else {
       alignment = false
       searchside = "against"
+
       amount = parseInt(document.getElementById('alignfalse').value)
       currentamt += amount
     }
@@ -240,8 +236,9 @@ document.addEventListener('click', event => {
       }
     })
       .then(() => {
-        axios.put(`/api/bets/${betid}/${searchside}amount`, {
-          value: currentamt
+        axios.put(`/api/bets/${betid}/${searchside}`, {
+          value: currentamt,
+          count: currentcnt
         }, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`

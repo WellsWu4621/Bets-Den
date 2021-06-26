@@ -27,7 +27,7 @@ Bet.init(
     },
     for_count: {
       type: DataTypes.INTEGER,
-      defaultValue: 10,
+      defaultValue: 1,
     },
     against_count: {
       type: DataTypes.INTEGER,

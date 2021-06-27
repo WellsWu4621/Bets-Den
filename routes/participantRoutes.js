@@ -11,11 +11,11 @@ const sequelize = require('../db')
 // })
 
 // all user participant
-router.get('/participants', passport.authenticate('jwt'), (req, res) => {
+router.get('/participants/user', passport.authenticate('jwt'), (req, res) => {
   res.json(req.user.participant)
 })
 
-// get witnes by id
+// get participant by id
 router.get('/participants/:id', passport.authenticate('jwt'), (req, res) => {
   Participant.findOne({
     where: { id: req.params.id },

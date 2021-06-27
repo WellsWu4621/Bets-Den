@@ -1,7 +1,34 @@
 <br>
 <div class="container">
-  <div class="row row-cols-1 row-cols-md-2 g-4" id="content">
+  <h4 id="bettitle"></h4>
+  <div class="row" id="content">
     {{!-- stuff goes here --}}
+
+  </div>
+</div>
+<br>
+<div class="container">
+  <h4 id="wittitle"></h4>
+  <div class="row" id="witnesscontent">
+    {{!-- stuff goes here --}}
+
+  </div>
+</div>
+<br>
+<div class="container">
+  <h4 id="parttitle"></h4>
+  <div class="row" id="participantcontent">
+    {{!-- stuff goes here --}}
+
+  </div>
+</div>
+<div class="modal fade" id="betModal" tabindex="-1" aria-labelledby="betModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" id="modalContent">
+
+  </div>
+</div>
+<div class="modal fade" id="witnessModal" tabindex="-1" aria-labelledby="witnessModal" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-dialog-centered" id="witmodalContent">
 
   </div>
 </div>
@@ -10,58 +37,4 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
     crossorigin="anonymous"></script>
-<script>
-  const renderBets = () => {
-    axios.get('/api/bets/user', {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then(({data: bets}) => {
-        document.getElementById('content').innerHTML = ''
-          console.log(bets)
-        bets.forEach(bet => {
-          let post = document.createElement('div')
-          post.innerHTML = `
-              <div class="col">
-                <div class="card border-dark mb-3" style="width: 18rem;">
-                  <div class="card-body">
-                    <h5 class="card-title">${bet.name}</h5>
-                    <h7>Current Betting Values</h7>
-                    <p class="card-text">For: ${bet.for_value} Tokens; Against: ${bet.against_value} Tokens</p>
-                    <p class="card-text">${bet.description}</p>
-                  </div>
-                  <div class="card-footer">
-                    <a href="/bet/${bet.id}" class="btn btn-primary">View this Bet</a>
-                    <a href="/update/${bet.id}" class="btn btn-primary">Update</a>
-                    <button data-betid="${bet.id}" class="delete btn btn-primary">X</button>
-                  </div>
-                </div>
-              </div>
-            `
-          document.getElementById('content').append(post)
-        })
-      })
-      .catch((err) => {
-        console.log(err)
-        //window.location = '/login'
-      })
-  }
-  // function call
-  renderBets()
-
-  document.addEventListener('click', event => {
-    if (event.target.classList.contains('delete')) {
-      let betid = event.target.getAttribute('data-betid')
-      axios.delete(`/api/blogs/${betid}`, {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
-        }
-      })
-        .then(() => {
-          window.location = '/dashboard'
-        })
-        .catch(err => console.log(err))
-    }
-  })
-</script>
+<script src="/js/dashboard.js"></script>

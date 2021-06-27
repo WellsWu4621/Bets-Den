@@ -19,13 +19,16 @@ Witness.belongsTo(User, {
 })
 User.hasMany(Witness, {
   foreignKey: 'user_id',
+  onDelete: 'CASCADE'
 })
 // Witness bets connection
 Witness.belongsTo(Bet, {
   foreignKey: 'bet_id',
+  onDelete: 'CASCADE'
 })
 Bet.hasMany(Witness, {
   foreignKey: 'bet_id',
+  onDelete: 'CASCADE'
 })
 
 // participant foreign key
@@ -35,13 +38,16 @@ Participant.belongsTo(User, {
 })
 User.hasMany(Participant, {
   foreignKey: 'user_id',
+  onDelete: 'CASCADE'
 })
 // participant bets connection
 Participant.belongsTo(Bet, {
   foreignKey: 'bet_id',
+  onDelete: 'CASCADE'
 })
 Bet.hasMany(Participant, {
   foreignKey: 'bet_id',
+  onDelete: 'CASCADE'
 })
 
 module.exports = { User, Bet, Participant, Witness }

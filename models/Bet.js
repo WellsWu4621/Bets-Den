@@ -25,6 +25,19 @@ Bet.init(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
+    for_count: {
+      type: DataTypes.INTEGER,
+      defaultValue: 1,
+    },
+    against_count: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    // options are 0,1,2: 0 is not done, 1 is done for win, 2 is done against win
+    isResolved: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0
+    }
   },
   {
     sequelize,

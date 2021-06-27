@@ -7,6 +7,7 @@ const renderbets = () => {
     .then(({ data: bets }) => {
       document.getElementById('content').innerHTML = ''
       bets.forEach(bet => {
+        if (bet.isResolved === 0) {
         let post = document.createElement('div')
         post.className ="col-sm-6 col-md-4 col-xl-3"
         post.innerHTML = `
@@ -24,6 +25,7 @@ const renderbets = () => {
 
             `
         document.getElementById('content').append(post)
+        }
       })
     })
     .catch((err) => {

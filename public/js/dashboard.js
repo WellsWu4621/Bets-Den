@@ -6,27 +6,25 @@ const renderUserBets = () => {
   })
     .then(({ data: bets }) => {
       document.getElementById('content').innerHTML = ''
-      if (bets.length > 0 && bets[0].isResolved === 0) {
-        document.getElementById('bettitle').innerText = 'Bets you Created:'
+      if (bets.length > 0) {
         bets.forEach(bet => {
-          if (bet.isResolved === 0){
-            let post = document.createElement('div')
-            post.className = "col-sm-6 col-md-4 col-xl-3"
-            post.innerHTML = `
-                  <div class="card border-dark mb-3">
-                    <div class="card-body">
-                      <h5 class="card-title">${bet.name}</h5>
-                      <h7>Current Betting Values</h7>
-                      <p class="card-text">For: ${bet.for_value} <i class="bi bi-emoji-smile-upside-down"></i>; Against: ${bet.against_value} <i class="bi bi-emoji-smile-upside-down"></i></p>
-                      <p class="card-text">${bet.description}</p>
-                    </div>
-                    <div class="card-footer">
-                      <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary" style="width: 100%">View this Bet</a>
-                    </div>
-                  </div>
-              `
-            document.getElementById('content').append(post)
-          }
+          let post = document.createElement('div')
+          post.className = "col-sm-6 col-md-4 col-xl-3"
+          post.innerHTML = `
+          <div class="card border-dark mb-3">
+          <div class="card-body">
+          <h5 class="card-title">${bet.name}</h5>
+          <h7>Current Betting Values</h7>
+          <p class="card-text">For: ${bet.for_value} <i class="bi bi-emoji-smile-upside-down"></i>; Against: ${bet.against_value} <i class="bi bi-emoji-smile-upside-down"></i></p>
+          <p class="card-text">${bet.description}</p>
+          </div>
+          <div class="card-footer">
+          <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary" style="width: 100%">View this Bet</a>
+          </div>
+          </div>
+          `
+          if (bet.isResolved === 0) document.getElementById('content').append(post)
+          else document.getElementById('rescontent').append(post)
         })
       }
     })
@@ -43,8 +41,7 @@ const renderWitnessBets = () => {
   })
     .then(({ data: witnesses }) => {
       console.log(witnesses)
-      if (witnesses.length > 0 && bets[0].isResolved === 0) {
-        document.getElementById('wittitle').innerText = 'Bets you are a Witness of:'
+      if (witnesses.length > 0)
         witnesses.forEach(witness => {
           axios.get(`/api/bets/${witness.bet_id}`, {
             headers: {
@@ -55,22 +52,22 @@ const renderWitnessBets = () => {
               let post = document.createElement('div')
               post.className = "col-sm-6 col-md-4 col-xl-3"
               post.innerHTML = `
-                  <div class="card border-dark mb-3">
-                    <div class="card-body modalbtn" data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal">
-                      <h5 class="card-title">${bet.name}</h5>
-                      <h7>Current Betting Values</h7>
-                      <p class="card-text">For: ${bet.for_value} <i class="bi bi-emoji-smile-upside-down"></i>; Against: ${bet.against_value} <i class="bi bi-emoji-smile-upside-down"></i></p>
-                      <p class="card-text">${bet.description}</p>
-                    </div>
-                    <div class="card-footer">
-                      <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary" style="width: 100%">View this Bet</a>
-                    </div>
-                  </div>
+              <div class="card border-dark mb-3">
+              <div class="card-body modalbtn" data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal">
+              <h5 class="card-title">${bet.name}</h5>
+              <h7>Current Betting Values</h7>
+              <p class="card-text">For: ${bet.for_value} <i class="bi bi-emoji-smile-upside-down"></i>; Against: ${bet.against_value} <i class="bi bi-emoji-smile-upside-down"></i></p>
+              <p class="card-text">${bet.description}</p>
+              </div>
+              <div class="card-footer">
+              <a data-bs-toggle="modal" data-betid="${bet.id}" href="#betModal" class="modalbtn btn btn-primary" style="width: 100%">View this Bet</a>
+              </div>
+              </div>
               `
-              document.getElementById('witnesscontent').append(post)
+              if (bet.isResolved === 0) document.getElementById('witnesscontent').append(post)
+              else document.getElementById('rescontent').append(post)
             })
         })
-      }
     })
     .catch(err => console.log(err))
 }
@@ -83,7 +80,6 @@ const renderParticipantBets = () => {
     .then(({ data: participants }) => {
       console.log(participants)
       if (participants.length > 0) {
-        document.getElementById('parttitle').innerText = 'Bets you are a Participant of:'
         participants.forEach(participant => {
           axios.get(`/api/bets/${participant.bet_id}`, {
             headers: {
@@ -106,7 +102,8 @@ const renderParticipantBets = () => {
                     </div>
                   </div>
               `
-              document.getElementById('participantcontent').append(post)
+              if (bet.isResolved === 0) document.getElementById('participantcontent').append(post)
+              else document.getElementById('rescontent').append(post)
             })
         })
       }
@@ -169,24 +166,24 @@ const renderModal = (betid) => {
               renderWitness(bet, participantid, userid)
               renderParticipant(bet)
               // is witness and other checks
-              if (bet.isResolved > 0 && witnessid > 0){
+              if (bet.isResolved > 0 && witnessid > 0) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
                 if (bet.isResolved === 1) {
-                footer.innerHTML = `
+                  footer.innerHTML = `
                 <p>
                 You have ruled this bet as a FOR win. 
                 </p>
                 `
                 }
                 else if (bet.isResolved === 2) {
-                footer.innerHTML = `
+                  footer.innerHTML = `
                 <p>
                 You have ruled this bet as an AGAINST win. 
                 </p>
                 `
                 }
-                else if (bet.against_count === 0){
+                else if (bet.against_count === 0) {
                   footer.innerHTML = `
                 <p>
                 You are a Witness. Please update the result of the bet below when there is at least 1 person betting for each side.
@@ -223,12 +220,12 @@ const renderModal = (betid) => {
                     }
                     else if (bet.isResolved === 1 && participant.alignCreator) {
                       let earned = parseInt(bet.against_value) / parseInt(bet.for_count)
-                      footer.innerHTML = `<p>This bet has been resolved. You WON ${} <i class="bi bi-emoji-smile-upside-down"></i>s</p>`
+                      footer.innerHTML = `<p>This bet has been resolved. You WON ${earned} <i class="bi bi-emoji-smile-upside-down"></i>s</p>`
                       document.getElementById('modalfooter').append(footer)
                     }
                     else if (bet.isResolved === 2 && !participant.alignCreator) {
-                      let earned = parseInt(bet.for_value)/parseInt(bet.against_count)
-                      footer.innerHTML = `<p>This bet has been resolved. You WON ${} <i class="bi bi-emoji-smile-upside-down"></i>s</p>`
+                      let earned = parseInt(bet.for_value) / parseInt(bet.against_count)
+                      footer.innerHTML = `<p>This bet has been resolved. You WON ${earned} <i class="bi bi-emoji-smile-upside-down"></i>s</p>`
                       document.getElementById('modalfooter').append(footer)
                     }
                     else if ((bet.isResolved === 2 && participant.alignCreator) || (bet.isResolved === 1 && !participant.alignCreator)) {

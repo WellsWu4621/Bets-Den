@@ -1,4 +1,0 @@
-Coins axios request to retrieve coins
-Fix place bet UI
-Font color and styling on multiple pages
-See if I can enlarge slot machine

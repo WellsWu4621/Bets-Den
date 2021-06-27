@@ -7,7 +7,6 @@ document.getElementById('login').addEventListener('click', event => {
     .then(({ data: token }) => {
       if (token) {
         localStorage.setItem('token', token)
-        window.location = '/home'
       } else {
         alert('Invalid username or password')
       }

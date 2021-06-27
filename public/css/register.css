@@ -10,6 +10,46 @@ canvas {
   vertical-align: bottom;
 }
 
+.navbar {
+  background-color: rgba(36, 110, 237, 0.831);
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: aliceblue;
+}
+
+.navbar-light .navbar-brand {
+  color: aliceblue;
+  margin-left: 1%;
+}
+
+.navbar-nav {
+  margin-left: auto;
+  margin-right: 2%;
+}
+
+.navbar-collapse {
+  display: flex;
+}
+
+.container {
+  margin-left: 20%;
+  margin-top: 8%;
+  max-width: 100%;
+}
+
+.row {
+  margin-top: 20px;
+}
+
+.card {
+  margin-bottom: 30px;
+}
+
+.input-group {
+  display: block;
+}
+
 /* ---- particles.js container ---- */
 
 #particles-js {

@@ -30,7 +30,7 @@ router.get('/dashboard', (req, res, next) => {
 
 // new post
 router.get('/newbets', (req, res, next) => {
-  res.render('newbets', {css: ['style.css'], js: ['login.css']})
+  res.render('newbets', {css: ['style.css']})
 })
 
 // default get coins page

@@ -5,6 +5,8 @@
  * Modified.
  */
 
+const { default: axios } = require('axios');
+
 (function ($) {
 
     var slotMachine = function () {
@@ -60,6 +62,13 @@
 
                 var currentCredits = credits;
                 credits += incrementCredits;
+                const getCoins = () =>{
+                    axios.get('/api/users/tokens', {tokens: credits }, {
+                        headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                        }
+                    })
+                }
                 const addCoins = () => {
                     axios.put('/api/users/tokens', { tokens: credits }, {
                         headers: {

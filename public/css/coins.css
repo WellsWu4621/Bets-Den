@@ -1,8 +1,7 @@
 body {
   margin: 0;
-  background-color: transparent;
-  background: transparent;
   overflow: hidden;
+  height: 950px;
 }
 
 canvas {
@@ -56,9 +55,10 @@ canvas {
 }
 
 .container {
-  margin-left: 20%;
+  margin-left: 28%;
   margin-top: 8%;
   max-width: 100%;
+  zoom: 200%;
 }
 
 .row {
@@ -158,7 +158,7 @@ html {
 }
 
 #slot-body {
-  background: #ffffff;
+  background: #000000;
   -moz-border-radius: 10px;
   -webkit-border-radius: 10px;
   border-radius: 10px;

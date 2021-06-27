@@ -33,9 +33,15 @@ router.get('/newbets', (req, res) => {
   res.render('newbets')
 })
 
+// default get coins page
+router.get('/coins', (req, res) => {
+  res.render('coins')
+})
+
 // default home
 router.get('/*', (req, res) => {
   res.render('home')
 })
+
 
 module.exports = router

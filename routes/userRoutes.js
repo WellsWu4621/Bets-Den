@@ -26,6 +26,7 @@ router.get('/users/:id', (req, res) => {
 })
 
 router.get('/user', passport.authenticate('jwt'), (req, res) => {
+
   res.json(req.user.id)
 })
 router.get('/user/profile', passport.authenticate('jwt'), (req, res) => {

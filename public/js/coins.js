@@ -107,7 +107,6 @@
 
                                 $(this).html(credits);
                                 blink($('#slot-credits'));
-
                             }
                         });
 

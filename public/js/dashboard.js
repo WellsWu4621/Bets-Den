@@ -400,6 +400,9 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('resultbtn')) {
     let betid = event.target.getAttribute('data-betid')
     let betresult = event.target.getAttribute('data-result')
+    let winnings = 0
+    let witearn = 0
+    let resolvednum = 0
     switch (event.target.getAttribute('data-result')) {
       case 'true':
         betresult = true
@@ -408,10 +411,6 @@ document.addEventListener('click', event => {
         betresult = false
         break
     }
-    console.log(betresult)
-    let winnings = 0
-    let witearn = 0
-    let resolvednum
     axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -464,7 +463,6 @@ document.addEventListener('click', event => {
           })
             .then(({ data: user }) => {
               if (bet.participants[p].alignCreator === betresult) {
-                console.log('ping')
                 axios.put(`/api/users/${bet.participants[p].user_id}`, {
                   Tokens: (parseInt(user.Tokens) + winnings + parseInt(bet.participants[p].betamount))
                 }, {

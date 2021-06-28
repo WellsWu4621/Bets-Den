@@ -150,7 +150,7 @@ const renderModal = (betid) => {
                   <hr>
                   <div class="text-center" id="modalfooter">
                     <form>
-                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"><i class="bi bi-emoji-smile-upside-down"></i>
+                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"></i>
                       <button type="button" class="joinbtn btn btn-primary" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}">Bet With</button>
                     </form>
                     <form>

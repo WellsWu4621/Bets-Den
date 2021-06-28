@@ -5,7 +5,7 @@ const sequelize = require('../db')
 
 // login
 router.get('/login', (req, res, next) => {
-  res.render('login', { css: ['style.css'], js: ['login.js']})
+  res.render('login', { css: ['login.css'], js: ['login.js']})
 })
 
 // register

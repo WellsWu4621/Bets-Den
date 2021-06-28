@@ -265,7 +265,7 @@ const renderWitness = (bet, participantid, userid) => {
   }
   else if (participantid === 0 && userid !== bet.creator_id) {
     document.getElementById('witnesslist').innerHTML = ''
-    document.getElementById('witnesslist').innerHTML = `This betsdf does not have a witness yet.<button type="button" class="witnessbtn btn btn-primary" data-betid="${bet.id}">Join as Witness</button>`
+    document.getElementById('witnesslist').innerHTML = `This bet does not have a witness yet.<button type="button" class="witnessbtn btn btn-primary" data-betid="${bet.id}">Join as Witness</button>`
   }
   else {
     document.getElementById('witnesslist').innerText = `This bet does not have a witness yet.`

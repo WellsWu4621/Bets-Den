@@ -47,5 +47,8 @@ document.getElementById('placeBet').addEventListener('click', event => {
       }
     })
 
-    .catch(err => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      window.location = '/login'
+    })
 })

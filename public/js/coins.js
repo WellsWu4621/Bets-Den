@@ -60,7 +60,7 @@
                 endSlot = function () {
 
                     $('#slot-block').show();
-                    $('#slot-credits').text('VERLOREN!!!');
+                    $('#slot-credits').text('YOU LOSE!!!');
 
                     setInterval(blink($('#slot-credits')), 1000);
 
@@ -84,9 +84,11 @@
                         })
                             .then((response) => {
                                 console.log(response);
-                            }, (error) => {
-                                console.log(error);
-                            });
+                            })     
+                            .catch ((err) => {
+                                console.log(err)
+                                window.location = '/login'
+                            })
                     }
                     addCoins()
                     blink($('#slot-credits'));

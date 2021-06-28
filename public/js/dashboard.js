@@ -408,28 +408,28 @@ document.addEventListener('click', event => {
       }
     })
       .then(({ data: bet }) => {
-        if (betresult === 1) { 
+        if (betresult === 1) {
           winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
         }
-        else { 
-          winnings = parseInt(bet.for_value) / parseInt(bet.against_count) 
-          witearn = Math.ceil(parseInt(bet.for_value)/10)
+        else {
+          winnings = parseInt(bet.for_value) / parseInt(bet.against_count)
+          witearn = Math.ceil(parseInt(bet.for_value) / 10)
         }
         axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
-        .then(({data: witness}) => {
-          axios.put(`/api/users/${bet.participants[p].user_id}`, {
-            Tokens: (witness.Tokens + witearn)
-          }, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+          .then(({ data: witness }) => {
+            axios.put(`/api/users/${bet.witnesses[0].user_id}`, {
+              Tokens: (witness.Tokens + witearn)
+            }, {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            })
           })
-        })
         for (let p = 0; p < bet.participants.length; p++) {
           axios.get(`/api/users/${bet.participants[p].user_id}`, {
             headers: {
@@ -439,7 +439,7 @@ document.addEventListener('click', event => {
             .then(({ data: user }) => {
               if (bet.participants[p].alignCreator) {
                 axios.put(`/api/users/${bet.participants[p].user_id}`, {
-                  Tokens: (user.Tokens + winnings)
+                  Tokens: (user.Tokens + winnings + bet.participants[p].betamount)
                 }, {
                   headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -451,21 +451,6 @@ document.addEventListener('click', event => {
                     }
                   })
               }
-              else {
-                axios.put(`/api/users/${bet.participants[p].user_id}`, {
-                  Tokens: (user.Tokens - bet.participants[p].betamount)
-                }, {
-                  headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                  }
-                })
-                  .then(() => {
-                    if (p + 1 === bet.participants.length) {
-                      window.location = '/dashboard'
-                    }
-                  })
-              }
-
             })
         }
       })

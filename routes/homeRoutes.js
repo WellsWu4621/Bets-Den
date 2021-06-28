@@ -25,12 +25,12 @@ router.get('/register', (req, res, next) => {
 
 // dashboard
 router.get('/dashboard', (req, res, next) => {
-  res.render('dashboard', {css: ['style.css']})
+  res.render('dashboard', {js: ['dashboard.js']})
 })
 
 // new post
 router.get('/newbets', (req, res, next) => {
-  res.render('newbets', {css: ['placeBet.css']})
+  res.render('newbets', { css: ['placeBet.css'], js: ['newbets.js']})
 })
 
 // default get coins page
@@ -44,7 +44,7 @@ router.get('/profile', (req, res, next) => {
 
 // default home
 router.get('/*', (req, res, next) => {
-  res.render('home', {css: ['.css']})
+  res.render('home', {js: ['home.js']})
 })
 
 

@@ -1,3 +1,4 @@
+
 const renderbets = () => {
   axios.get('/api/bets', {
     headers: {
@@ -8,9 +9,9 @@ const renderbets = () => {
       document.getElementById('content').innerHTML = ''
       bets.forEach(bet => {
         if (bet.isResolved === 0) {
-        let post = document.createElement('div')
-        post.className ="col-sm-6 col-md-4 col-xl-3"
-        post.innerHTML = `
+          let post = document.createElement('div')
+          post.className = "col-sm-6 col-md-4 col-xl-3"
+          post.innerHTML = `
                 <div class="card border-dark mb-3 shadow bg-body rounded">
                   <div class="card-body">
                     <h5 class="card-title">${bet.name}</h5>
@@ -24,7 +25,7 @@ const renderbets = () => {
                 </div>
 
             `
-        document.getElementById('content').append(post)
+          document.getElementById('content').append(post)
         }
       })
     })
@@ -224,31 +225,60 @@ document.addEventListener('click', event => {
     else {
       alignment = false
       searchside = "against"
-
       amount = parseInt(document.getElementById('alignfalse').value)
       currentamt += amount
     }
-    axios.post('/api/participants', {
-      alignCreator: alignment,
-      betamount: amount,
-      bet_id: betid
-    }, {
+    axios.get('/api/user/profile', {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
-      .then(() => {
-        axios.put(`/api/bets/${betid}/${searchside}`, {
-          value: currentamt,
-          count: currentcnt
-        }, {
-          headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        })
-          .then(() => {
-            renderModal(betid)
+      .then(({ data: user }) => {
+        if (user.Tokens >= amount) {
+          axios.put(`/api/users/tokens`, {
+            tokens: (user.Tokens - amount)
+          }, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
           })
+            .then(() => {
+              axios.post('/api/participants', {
+                alignCreator: alignment,
+                betamount: amount,
+                bet_id: betid
+              }, {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              })
+                .then(() => {
+                  axios.put(`/api/bets/${betid}/${searchside}`, {
+                    value: currentamt,
+                    count: currentcnt
+                  }, {
+                    headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                  })
+                    .then(() => {
+                      renderbets()
+                      renderModal(betid)
+                    })
+                })
+            })
+        }
+        else {
+          document.getElementById('alert').innerHTML += `
+          <div class="alert alert-warning d-flex align-items-center mx-auto" role="alert" style="width: 80%">
+            <div>
+            <i class="bi bi-exclamation-triangle-fill"></i>
+            You Cannot Wager more Tokens than you own. 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          </div>
+          `
+        }
       })
       .catch(err => console.log(err))
   }

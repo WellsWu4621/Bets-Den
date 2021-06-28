@@ -400,6 +400,9 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('resultbtn')) {
     let betid = event.target.getAttribute('data-betid')
     let betresult = event.target.getAttribute('data-result')
+    let winnings = 0
+    let witearn = 0
+    let resolvednum = 0
     switch (event.target.getAttribute('data-result')) {
       case 'true':
         betresult = true
@@ -408,9 +411,6 @@ document.addEventListener('click', event => {
         betresult = false
         break
     }
-    console.log(betresult)
-    let winnings = 0
-    let witearn = 0
     axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -418,8 +418,9 @@ document.addEventListener('click', event => {
     })
       .then(({ data: bet }) => {
         if (betresult === true) {
-          winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
+          winnings = Math.ceil(parseInt(bet.against_value) / parseInt(bet.for_count))
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
+          resolvednum = 1
           axios.get(`/api/users/${bet.creator_id}`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -436,8 +437,9 @@ document.addEventListener('click', event => {
             })
         }
         else {
-          winnings = parseInt(bet.for_value) / parseInt(bet.against_count)
+          winnings = Math.ceil(parseInt(bet.for_value) / parseInt(bet.against_count))
           witearn = Math.ceil(parseInt(bet.for_value) / 10)
+          resolvednum = 2
         }
         axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
           headers: {
@@ -461,7 +463,6 @@ document.addEventListener('click', event => {
           })
             .then(({ data: user }) => {
               if (bet.participants[p].alignCreator === betresult) {
-                console.log('ping')
                 axios.put(`/api/users/${bet.participants[p].user_id}`, {
                   Tokens: (parseInt(user.Tokens) + winnings + parseInt(bet.participants[p].betamount))
                 }, {

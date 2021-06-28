@@ -150,7 +150,7 @@ const renderModal = (betid) => {
                   <hr>
                   <div class="text-center" id="modalfooter">
                     <form>
-                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"><i class="bi bi-emoji-smile-upside-down"></i>
+                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"></i>
                       <button type="button" class="joinbtn btn btn-primary" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}">Bet With</button>
                     </form>
                     <form>
@@ -172,7 +172,7 @@ const renderModal = (betid) => {
               renderWitness(bet, participantid, userid)
               renderParticipant(bet)
               // is witness and other checks
-              if (bet.isResolved > 0 && witnessid > 0) {
+              if (witnessid > 0) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
                 if (bet.isResolved === 1) {
@@ -201,8 +201,8 @@ const renderModal = (betid) => {
                 <p>
                 You are a Witness. Please update the result of the bet below.
                 </p>
-                <button class="resultbtn btn btn-primary mb-2" data-result="1" data-betid="${bet.id}" style="width: 10rem">FOR</button>
-                <button class="resultbtn btn btn-primary mb-2" data-result="2" data-betid="${bet.id}" style="width: 10rem">AGAINST</button>`
+                <button class="resultbtn btn btn-primary mb-2" data-result="true" data-betid="${bet.id}" style="width: 10rem">FOR</button>
+                <button class="resultbtn btn btn-primary mb-2" data-result="false" data-betid="${bet.id}" style="width: 10rem">AGAINST</button>`
                 }
                 document.getElementById('modalfooter').append(footer)
               }
@@ -402,34 +402,59 @@ document.addEventListener('click', event => {
     let betresult = event.target.getAttribute('data-result')
     let winnings = 0
     let witearn = 0
+    let resolvednum = 0
+    switch (event.target.getAttribute('data-result')) {
+      case 'true':
+        betresult = true
+        resolvednum = 1
+        break;
+      case 'false':
+        betresult = false
+        resolvednum = 2
+        break
+    }
     axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then(({ data: bet }) => {
-        if (betresult === 1) { 
-          winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
+        if (betresult === true) {
+          winnings = Math.ceil(parseInt(bet.against_value) / parseInt(bet.for_count))
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
+          axios.get(`/api/users/${bet.creator_id}`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+            .then(({ data: creator }) => {
+              axios.put(`/api/users/${bet.creator_id}`, {
+                Tokens: (parseInt(creator.Tokens) + parseInt(bet.creator_value) + winnings)
+              }, {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              })
+            })
         }
-        else { 
-          winnings = parseInt(bet.for_value) / parseInt(bet.against_count) 
-          witearn = Math.ceil(parseInt(bet.for_value)/10)
+        else {
+          winnings = Math.ceil(parseInt(bet.for_value) / parseInt(bet.against_count))
+          witearn = Math.ceil(parseInt(bet.for_value) / 10)
         }
         axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
         })
-        .then(({data: witness}) => {
-          axios.put(`/api/users/${bet.participants[p].user_id}`, {
-            Tokens: (witness.Tokens + witearn)
-          }, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
+          .then(({ data: witness }) => {
+            axios.put(`/api/users/${bet.witnesses[0].user_id}`, {
+              Tokens: (parseInt(witness.Tokens) + witearn)
+            }, {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            })
           })
-        })
         for (let p = 0; p < bet.participants.length; p++) {
           axios.get(`/api/users/${bet.participants[p].user_id}`, {
             headers: {
@@ -437,9 +462,9 @@ document.addEventListener('click', event => {
             }
           })
             .then(({ data: user }) => {
-              if (bet.participants[p].alignCreator) {
+              if (bet.participants[p].alignCreator === betresult) {
                 axios.put(`/api/users/${bet.participants[p].user_id}`, {
-                  Tokens: (user.Tokens + winnings)
+                  Tokens: (parseInt(user.Tokens) + winnings + parseInt(bet.participants[p].betamount))
                 }, {
                   headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -451,21 +476,9 @@ document.addEventListener('click', event => {
                     }
                   })
               }
-              else {
-                axios.put(`/api/users/${bet.participants[p].user_id}`, {
-                  Tokens: (user.Tokens - bet.participants[p].betamount)
-                }, {
-                  headers: {
-                    'Authorization': `Bearer ${localStorage.getItem('token')}`
-                  }
-                })
-                  .then(() => {
-                    if (p + 1 === bet.participants.length) {
-                      window.location = '/dashboard'
-                    }
-                  })
+              else if (p + 1 === bet.participants.length) {
+                window.location = '/dashboard'
               }
-
             })
         }
       })

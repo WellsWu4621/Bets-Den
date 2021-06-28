@@ -12,7 +12,7 @@ const sequelize = require('../db')
 
 // all user participant
 router.get('/participants/user', passport.authenticate('jwt'), (req, res) => {
-  res.json(req.user.participant)
+  res.json(req.user.participants)
 })
 
 // get participant by id

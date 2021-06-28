@@ -201,8 +201,8 @@ const renderModal = (betid) => {
                 <p>
                 You are a Witness. Please update the result of the bet below.
                 </p>
-                <button class="resultbtn btn btn-primary mb-2" data-result="1" data-betid="${bet.id}" style="width: 10rem">FOR</button>
-                <button class="resultbtn btn btn-primary mb-2" data-result="2" data-betid="${bet.id}" style="width: 10rem">AGAINST</button>`
+                <button class="resultbtn btn btn-primary mb-2" data-result="true" data-betid="${bet.id}" style="width: 10rem">FOR</button>
+                <button class="resultbtn btn btn-primary mb-2" data-result="false" data-betid="${bet.id}" style="width: 10rem">AGAINST</button>`
                 }
                 document.getElementById('modalfooter').append(footer)
               }
@@ -400,6 +400,15 @@ document.addEventListener('click', event => {
   if (event.target.classList.contains('resultbtn')) {
     let betid = event.target.getAttribute('data-betid')
     let betresult = event.target.getAttribute('data-result')
+    switch (event.target.getAttribute('data-result')) {
+      case 'true':
+        betresult = true
+        break;
+      case 'false':
+        betresult = false
+        break
+    }
+    console.log(betresult)
     let winnings = 0
     let witearn = 0
     axios.get(`/api/bets/${betid}`, {
@@ -408,9 +417,23 @@ document.addEventListener('click', event => {
       }
     })
       .then(({ data: bet }) => {
-        if (betresult === 1) {
+        if (betresult === true) {
           winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
+          axios.get(`/api/users/${bet.creator_id}`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+            .then(({ data: creator }) => {
+              axios.put(`/api/users/${bet.creator_id}`, {
+                Tokens: (parseInt(creator.Tokens) + parseInt(bet.creator_value) + winnings)
+              }, {
+                headers: {
+                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+              })
+            })
         }
         else {
           winnings = parseInt(bet.for_value) / parseInt(bet.against_count)
@@ -423,7 +446,7 @@ document.addEventListener('click', event => {
         })
           .then(({ data: witness }) => {
             axios.put(`/api/users/${bet.witnesses[0].user_id}`, {
-              Tokens: (witness.Tokens + witearn)
+              Tokens: (parseInt(witness.Tokens) + witearn)
             }, {
               headers: {
                 'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -437,9 +460,10 @@ document.addEventListener('click', event => {
             }
           })
             .then(({ data: user }) => {
-              if (bet.participants[p].alignCreator) {
+              if (bet.participants[p].alignCreator === betresult) {
+                console.log('ping')
                 axios.put(`/api/users/${bet.participants[p].user_id}`, {
-                  Tokens: (user.Tokens + winnings + bet.participants[p].betamount)
+                  Tokens: (parseInt(user.Tokens) + winnings + parseInt(bet.participants[p].betamount))
                 }, {
                   headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -451,19 +475,22 @@ document.addEventListener('click', event => {
                     }
                   })
               }
+              else if (p + 1 === bet.participants.length) {
+                window.location = '/dashboard'
+              }
             })
         }
       })
-    axios.put(`/api/bets/${betid}`, {
-      isResolved: betresult
-    }, {
-      headers: {
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-      }
-    })
-      .then(() => {
-        console.log('credits distributed')
-      })
+      // axios.put(`/api/bets/${betid}`, {
+      //   isResolved: betresult
+      // }, {
+      //   headers: {
+      //     'Authorization': `Bearer ${localStorage.getItem('token')}`
+      //   }
+      // })
+      //   .then(() => {
+      //     console.log('credits distributed')
+      //   })
       .catch(err => console.log(err))
   }
 })

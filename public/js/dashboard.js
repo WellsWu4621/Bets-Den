@@ -172,7 +172,7 @@ const renderModal = (betid) => {
               renderWitness(bet, participantid, userid)
               renderParticipant(bet)
               // is witness and other checks
-              if (bet.isResolved > 0 && witnessid > 0) {
+              if (witnessid > 0) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
                 if (bet.isResolved === 1) {

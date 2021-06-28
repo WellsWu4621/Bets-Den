@@ -15,5 +15,9 @@ const renderDiscord = () => {
       document.getElementById('userTokens').innerHTML += `${User.Tokens}`
 
     })
+    .catch((err) => {
+      console.log(err)
+      window.location = '/login'
+    })
 }
 renderDiscord()

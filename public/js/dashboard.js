@@ -30,7 +30,7 @@ const renderUserBets = () => {
     })
     .catch((err) => {
       console.log(err)
-      //window.location = '/login'
+      window.location = '/login'
     })
 }
 const renderWitnessBets = () => {
@@ -69,7 +69,10 @@ const renderWitnessBets = () => {
             })
         })
     })
-    .catch(err => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      window.location = '/login'
+    })
 }
 const renderParticipantBets = () => {
   axios.get('/api/participants/user', {
@@ -108,7 +111,10 @@ const renderParticipantBets = () => {
         })
       }
     })
-    .catch(err => console.log(err))
+    .catch((err) => {
+      console.log(err)
+      window.location = '/login'
+    })
 }
 const renderModal = (betid) => {
   document.getElementById('modalContent').innerHTML = ""

@@ -31,7 +31,7 @@ const renderbets = () => {
     })
     .catch((err) => {
       console.log(err)
-      // window.location = '/login'
+      window.location = '/login'
     })
 }
 const renderModal = (betid) => {

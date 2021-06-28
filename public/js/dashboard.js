@@ -150,7 +150,7 @@ const renderModal = (betid) => {
                   <hr>
                   <div class="text-center" id="modalfooter">
                     <form>
-                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"><i class="bi bi-emoji-smile-upside-down"></i>
+                      <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example"></i>
                       <button type="button" class="joinbtn btn btn-primary" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}">Bet With</button>
                     </form>
                     <form>
@@ -172,7 +172,7 @@ const renderModal = (betid) => {
               renderWitness(bet, participantid, userid)
               renderParticipant(bet)
               // is witness and other checks
-              if (bet.isResolved > 0 && witnessid > 0) {
+              if (witnessid > 0) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
                 if (bet.isResolved === 1) {

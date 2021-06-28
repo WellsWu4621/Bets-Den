@@ -481,16 +481,16 @@ document.addEventListener('click', event => {
             })
         }
       })
-      // axios.put(`/api/bets/${betid}`, {
-      //   isResolved: betresult
-      // }, {
-      //   headers: {
-      //     'Authorization': `Bearer ${localStorage.getItem('token')}`
-      //   }
-      // })
-      //   .then(() => {
-      //     console.log('credits distributed')
-      //   })
+      axios.put(`/api/bets/${betid}`, {
+        isResolved: betresult
+      }, {
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+      })
+        .then(() => {
+          console.log('credits distributed')
+        })
       .catch(err => console.log(err))
   }
 })

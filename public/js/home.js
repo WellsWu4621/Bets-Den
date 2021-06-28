@@ -68,11 +68,11 @@ const renderModal = (betid) => {
                   <div class="text-center row mx-auto" id="modalfooter">
                     <form class="col-6">
                       <input class="form-control form-control-sm" type="text" id='aligntrue' placeholder="Whole number of Tokens" aria-label=".form-control-sm example">
-                      <button type="button" class="joinbtn btn btn-primary my-1" data-count"${bet.for_count}" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}" style="width: 10rem">Bet With</button>
+                      <button type="button" class="joinbtn btn btn-primary my-1" data-count="${bet.for_count}" data-betid="${bet.id}" data-align="true" data-value="${bet.for_value}" style="width: 10rem">Bet With</button>
                     </form>
                     <form class="col-6">
                       <input class="form-control form-control-sm" type="text" id='alignfalse' placeholder="Whole number of Tokens" aria-label=".form-control-sm example">
-                      <button type="button" class="joinbtn btn btn-primary my-1" data-count"${bet.against_count}" data-betid="${bet.id}" data-align="false" data-value="${bet.against_value}" style="width: 10rem">Bet Against</button>
+                      <button type="button" class="joinbtn btn btn-primary my-1" data-count="${bet.against_count}" data-betid="${bet.id}" data-align="false" data-value="${bet.against_value}" style="width: 10rem">Bet Against</button>
                     </form>
                   </div>
                 </div>

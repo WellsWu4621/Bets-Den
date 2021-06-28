@@ -5,10 +5,6 @@
  * Modified.
  */
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 9cd8c54c370e000babb9423a33d0b310b0cc9588
 (function ($) {
     async function getTokens() {
         return response = await axios.get('/api/user/profile', {

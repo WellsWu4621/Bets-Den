@@ -406,9 +406,11 @@ document.addEventListener('click', event => {
     switch (event.target.getAttribute('data-result')) {
       case 'true':
         betresult = true
+        resolvednum = 1
         break;
       case 'false':
         betresult = false
+        resolvednum = 2
         break
     }
     axios.get(`/api/bets/${betid}`, {
@@ -420,7 +422,6 @@ document.addEventListener('click', event => {
         if (betresult === true) {
           winnings = Math.ceil(parseInt(bet.against_value) / parseInt(bet.for_count))
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
-          resolvednum = 1
           axios.get(`/api/users/${bet.creator_id}`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -439,7 +440,6 @@ document.addEventListener('click', event => {
         else {
           winnings = Math.ceil(parseInt(bet.for_value) / parseInt(bet.against_count))
           witearn = Math.ceil(parseInt(bet.for_value) / 10)
-          resolvednum = 2
         }
         axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
           headers: {
@@ -489,9 +489,6 @@ document.addEventListener('click', event => {
           'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
       })
-        .then(() => {
-          console.log('credits distributed')
-        })
       .catch(err => console.log(err))
   }
 })

@@ -237,7 +237,9 @@ const renderModal = (betid) => {
               else if (bet.creator_id === userid) {
                 let footer = document.createElement('div')
                 document.getElementById('modalfooter').innerHTML = ''
-                footer.innerHTML = `<p>You are the creator of the bet and a default participant listed as FOR: ${bet.creator_value} <i class="bi bi-emoji-smile-upside-down"></i>.</p><button class="hidden joinbtn"></button>`
+                footer.innerHTML = `<p>You are the creator of the bet and a default participant listed as FOR: ${bet.creator_value} <i class="bi bi-emoji-smile-upside-down"></i>.</p>
+                <button class="delete btn btn-primary" data-betid="${bet.id}"><i class="bi bi-trash"></i></button>
+                <button class="hidden joinbtn"></button>`
                 document.getElementById('modalfooter').append(footer)
               }
             })
@@ -322,15 +324,70 @@ document.addEventListener('click', event => {
 document.addEventListener('click', event => {
   if (event.target.classList.contains('delete')) {
     let betid = event.target.getAttribute('data-betid')
-    axios.delete(`/api/bets/${betid}`, {
+    axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
-      .then(() => {
-        window.location = '/dashboard'
+      .then(({ data: bet }) => {
+        axios.get(`/api/users/${bet.creator_id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+          .then(({ data: creator }) => {
+            axios.put(`/api/users/${bet.creator_id}`, {
+              Tokens: (creator.Tokens + bet.creator_value)
+            }, {
+              headers: {
+                'Authorization': `Bearer ${localStorage.getItem('token')}`
+              }
+            })
+              .then(() => {
+                if (bet.participants.length > 0) {
+                  for (let p = 0; p < bet.participants.length; p++) {
+                    axios.get(`/api/users/${bet.participants[p].user_id}`, {
+                      headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                      }
+                    })
+                      .then(({ data: user }) => {
+                        axios.put(`/api/users/${bet.participants[p].user_id}`, {
+                          Tokens: (user.Tokens + bet.participants[p].betamount)
+                        }, {
+                          headers: {
+                            'Authorization': `Bearer ${localStorage.getItem('token')}`
+                          }
+                        })
+                          .then(() => {
+                            if (p + 1 === bet.participants.length) {
+                              axios.delete(`/api/bets/${betid}`, {
+                                headers: {
+                                  'Authorization': `Bearer ${localStorage.getItem('token')}`
+                                }
+                              })
+                                .then(() => {
+                                  window.location = '/dashboard'
+                                })
+                                .catch(err => console.log(err))
+                            }
+                          })
+                      })
+                  }
+                } else {
+                  axios.delete(`/api/bets/${betid}`, {
+                    headers: {
+                      'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                  })
+                    .then(() => {
+                      window.location = '/dashboard'
+                    })
+                    .catch(err => console.log(err))
+                }
+              })
+          })
       })
-      .catch(err => console.log(err))
   }
 })
 document.addEventListener('click', event => {
@@ -338,14 +395,35 @@ document.addEventListener('click', event => {
     let betid = event.target.getAttribute('data-betid')
     let betresult = event.target.getAttribute('data-result')
     let winnings = 0
+    let witearn = 0
     axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then(({ data: bet }) => {
-        if (betresult === 1) { winnings = parseInt(bet.against_value) / parseInt(bet.for_count) }
-        else { winnings = parseInt(bet.for_value) / parseInt(bet.against_count) }
+        if (betresult === 1) { 
+          winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
+          witearn = Math.ceil(parseInt(bet.against_value) / 10)
+        }
+        else { 
+          winnings = parseInt(bet.for_value) / parseInt(bet.against_count) 
+          witearn = Math.ceil(parseInt(bet.for_value)/10)
+        }
+        axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        })
+        .then(({data: witness}) => {
+          axios.put(`/api/users/${bet.participants[p].user_id}`, {
+            Tokens: (witness.Tokens + witearn)
+          }, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          })
+        })
         for (let p = 0; p < bet.participants.length; p++) {
           axios.get(`/api/users/${bet.participants[p].user_id}`, {
             headers: {

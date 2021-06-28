@@ -7,11 +7,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <link rel="stylesheet" href="/css/stars.css">
-        {{#each css}}
-        <link rel="stylesheet" href="/css/{{this}}" />
-        {{/each}}
+  {{#each css}}
+  <link rel="stylesheet" href="/css/{{this}}" />
+  {{/each}}
   <title>View Bets</title>
 
   <style>
@@ -19,24 +20,34 @@
       display: none;
       justify-items: center;
     }
-    .navbar{
-      background:transparent;
+
+    .navbar {
+      background: transparent;
     }
+
     .navbar-light .navbar-nav .nav-link {
       color: aliceblue;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 25px;
     }
+
     .navbar-light .navbar-toggler-icon {
-    background-image: url(https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png);
-}
-    .navbar-light .navbar-brand{
+      background-image: url(https://img.icons8.com/ios-glyphs/30/ffffff/menu--v1.png);
+    }
+
+    .navbar-light .navbar-brand {
       color: aliceblue;
       margin-left: 1%;
+      font-family: 'Times New Roman', Times, serif;
+      font-size: 25px;
     }
-    .navbar-nav{
+
+    .navbar-nav {
       margin-left: auto;
       margin-right: 2%;
     }
-    .navbar-collapse{
+
+    .navbar-collapse {
       display: flex;
     }
   </style>
@@ -45,47 +56,52 @@
 
 <body>
   <div id="particles-js"></div>
-<nav class="navbar navbar-expand-lg navbar-light " style="background: transparent;">
-  <a class="navbar-brand" href="/home">Bets</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-    aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation"    style="color: aliceblue;">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-      <a class="navbar-item nav-link" href="/profile">Profile</a>
-      <div class="dropdown-divider"></div>
-      <a class="navbar-item nav-link" href="/newbets">Place a Bet</a>
-      <div class="dropdown-divider"></div>
-      <a class="navbar-item nav-link" href="/dashboard">View Bets</a>
-      <div class="dropdown-divider"></div>
-      <a class="navbar-item nav-link" href="/coins">Get Coins</a>
-      <div class="dropdown-divider"></div>
-      <a class="navbar-item nav-link" id="logger" href="/login">Sign Out</a>
+  <nav class="navbar navbar-expand-lg navbar-light " style="background: transparent;">
+    <a class="navbar-brand" href="/home">Bets</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+      aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" style="color: aliceblue;">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav">
+        <a class="navbar-item nav-link" href="/profile">Profile</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="/newbets">Place a Bet</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="/dashboard">View Bets</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" href="/coins">Get Coins</a>
+        <div class="dropdown-divider"></div>
+        <a class="navbar-item nav-link" id="logger" href="/login">Sign Out</a>
+      </div>
     </div>
-  </div>
-</nav>
-<!-- particles.js container -->
-<div id="particles-js"></div>
-
+  </nav>
+  <!-- particles.js container -->
+  <div id="particles-js"></div>
+  <div id="alert"></div>
   {{{body}}}
 
 
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-<!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
-<script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-<script src="/js/stars.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src='https://code.jquery.com/jquery-1.11.3.min.js'></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+    integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+    crossorigin="anonymous"></script>
+  <!-- particles.js lib - https://github.com/VincentGarreau/particles.js -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="/js/stars.js"></script>
   <script>
     document.getElementById('logger').addEventListener('click', event => {
       localStorage.removeItem('token')
     })
   </script>
 
-        {{#each js}}
-        <script src="/js/{{this}}"></script>
-        {{/each}}
+  {{#each js}}
+  <script src="/js/{{this}}"></script>
+  {{/each}}
 
 
 </body>

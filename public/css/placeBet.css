@@ -50,22 +50,11 @@ body {
   border: 0px;
 }
 
-button {
-  margin-top: 23px;
-  /* padding-right: 20px; */
-  margin-left: 50px;
-}
-
 .row>* {
   /* padding-left: calc(var(--bs-gutter-x)/ 1); */
   padding-left: 3%;
 }
 
-#description.form-control {
-  /* padding-right: 200px; */
-  margin-right: 200px;
- 
-}
 
 /* #name.form-control {
  padding-inline-start: 20px;

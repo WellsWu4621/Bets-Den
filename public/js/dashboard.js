@@ -411,6 +411,7 @@ document.addEventListener('click', event => {
     console.log(betresult)
     let winnings = 0
     let witearn = 0
+    let resolvednum = 0
     axios.get(`/api/bets/${betid}`, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -418,8 +419,9 @@ document.addEventListener('click', event => {
     })
       .then(({ data: bet }) => {
         if (betresult === true) {
-          winnings = parseInt(bet.against_value) / parseInt(bet.for_count)
+          winnings = Math.ceil(parseInt(bet.against_value) / parseInt(bet.for_count))
           witearn = Math.ceil(parseInt(bet.against_value) / 10)
+          resolvednum = 1
           axios.get(`/api/users/${bet.creator_id}`, {
             headers: {
               'Authorization': `Bearer ${localStorage.getItem('token')}`
@@ -436,8 +438,9 @@ document.addEventListener('click', event => {
             })
         }
         else {
-          winnings = parseInt(bet.for_value) / parseInt(bet.against_count)
+          winnings = Math.ceil(parseInt(bet.for_value) / parseInt(bet.against_count))
           witearn = Math.ceil(parseInt(bet.for_value) / 10)
+          resolvednum = 2
         }
         axios.get(`/api/users/${bet.witnesses[0].user_id}`, {
           headers: {
